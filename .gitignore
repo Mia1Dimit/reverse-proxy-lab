@@ -1,1 +1,10 @@
 plan.md
+
+# TLS private keys
+infra/certs/*.key
+
+# Go build output
+proxy/bin/
+
+# Docker override files
+docker-compose.override.yml
