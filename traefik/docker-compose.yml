@@ -1,0 +1,153 @@
+services:
+  traefik:
+    image: traefik:v3.7
+    container_name: traefik
+    command:
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.directory=/config/dynamic"
+      - "--providers.file.watch=true"
+      - "--accesslog=true"
+      - "--accesslog.format=json"
+      - "--accesslog.filepath=/logs/access.log"
+      - "--api.dashboard=true"
+      - "--ping=true"
+      - "--ping.entrypoint=websecure"
+      # Optional now, useful later on EC2 when you attach a domain.
+      - "--entrypoints.websecure.http.tls=true"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./config:/config:ro"
+      - "./certs:/certs:ro"
+      - "./logs:/logs"
+    secrets:
+      - dashboard_users
+    labels:
+      - "traefik.enable=true"
+
+      # Global HTTP -> HTTPS redirect
+      - "traefik.http.middlewares.redirect-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-https.redirectscheme.permanent=true"
+
+      # Dashboard protected by basic auth file (mounted as a secret)
+      - "traefik.http.middlewares.dashboard-auth.basicauth.usersfile=/run/secrets/dashboard_users"
+      - "traefik.http.routers.traefik-dashboard.rule=PathPrefix(`/dashboard`) || PathPrefix(`/api`)"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.traefik-dashboard.tls=true"
+      - "traefik.http.routers.traefik-dashboard.middlewares=dashboard-auth,secure-headers@file"
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
+
+      # Operational endpoint for health checks
+      - "traefik.http.routers.ping.rule=Path(`/healthz`)"
+      - "traefik.http.routers.ping.entrypoints=websecure"
+      - "traefik.http.routers.ping.tls=true"
+      - "traefik.http.routers.ping.middlewares=secure-headers@file"
+      - "traefik.http.routers.ping.service=ping@internal"
+
+  # Landing page placeholder
+  landing:
+    image: traefik/whoami
+    container_name: landing
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.landing.loadbalancer.server.port=80"
+
+      # Force HTTPS for landing
+      - "traefik.http.routers.landing-http.rule=Path(`/`)"
+      - "traefik.http.routers.landing-http.entrypoints=web"
+      - "traefik.http.routers.landing-http.middlewares=redirect-https"
+
+      - "traefik.http.routers.landing-https.rule=Path(`/`)"
+      - "traefik.http.routers.landing-https.entrypoints=websecure"
+      - "traefik.http.routers.landing-https.tls=true"
+      - "traefik.http.routers.landing-https.middlewares=rate-limit,secure-headers@file"
+      - "traefik.http.routers.landing-https.service=landing"
+
+  # About me page placeholder
+  about-me:
+    image: traefik/whoami
+    container_name: about-me
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.about-me.loadbalancer.server.port=80"
+
+      - "traefik.http.routers.about-me-http.rule=PathPrefix(`/about-me`)"
+      - "traefik.http.routers.about-me-http.entrypoints=web"
+      - "traefik.http.routers.about-me-http.middlewares=redirect-https"
+
+      - "traefik.http.routers.about-me-https.rule=PathPrefix(`/about-me`)"
+      - "traefik.http.routers.about-me-https.entrypoints=websecure"
+      - "traefik.http.routers.about-me-https.tls=true"
+      - "traefik.http.routers.about-me-https.middlewares=rate-limit,secure-headers@file"
+      - "traefik.http.routers.about-me-https.service=about-me"
+
+  # Certifications page placeholder
+  certifications:
+    image: traefik/whoami
+    container_name: certifications
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.certifications.loadbalancer.server.port=80"
+
+      - "traefik.http.routers.certs-http.rule=PathPrefix(`/certifications`)"
+      - "traefik.http.routers.certs-http.entrypoints=web"
+      - "traefik.http.routers.certs-http.middlewares=redirect-https"
+
+      - "traefik.http.routers.certs-https.rule=PathPrefix(`/certifications`)"
+      - "traefik.http.routers.certs-https.entrypoints=websecure"
+      - "traefik.http.routers.certs-https.tls=true"
+      - "traefik.http.routers.certs-https.middlewares=rate-limit,secure-headers@file"
+      - "traefik.http.routers.certs-https.service=certifications"
+
+  # Portfolio pages are handled by a single backend.
+  # The application behind this service should handle:
+  # - /portfolio
+  # - /portfolio/<slug>
+  portfolio-detail:
+    image: traefik/whoami
+    container_name: portfolio-detail
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.portfolio-detail.loadbalancer.server.port=80"
+
+      - "traefik.http.routers.portfolio-detail-http.rule=PathPrefix(`/portfolio`)"
+      - "traefik.http.routers.portfolio-detail-http.entrypoints=web"
+      - "traefik.http.routers.portfolio-detail-http.middlewares=redirect-https"
+
+      - "traefik.http.routers.portfolio-detail-https.rule=PathPrefix(`/portfolio`)"
+      - "traefik.http.routers.portfolio-detail-https.entrypoints=websecure"
+      - "traefik.http.routers.portfolio-detail-https.tls=true"
+      - "traefik.http.routers.portfolio-detail-https.middlewares=rate-limit,secure-headers@file"
+      - "traefik.http.routers.portfolio-detail-https.service=portfolio-detail"
+
+  # Fallback service for unknown routes
+  not-found:
+    image: nginx:alpine
+    container_name: not-found
+    volumes:
+      - "./config/nginx/not-found.conf:/etc/nginx/conf.d/default.conf:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.not-found.loadbalancer.server.port=80"
+
+      # Lowest priority catch-all, used only when no other router matches
+      - "traefik.http.routers.not-found-http.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.not-found-http.entrypoints=web"
+      - "traefik.http.routers.not-found-http.middlewares=redirect-https"
+      - "traefik.http.routers.not-found-http.priority=1"
+
+      - "traefik.http.routers.not-found-https.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.not-found-https.entrypoints=websecure"
+      - "traefik.http.routers.not-found-https.tls=true"
+      - "traefik.http.routers.not-found-https.middlewares=secure-headers@file"
+      - "traefik.http.routers.not-found-https.service=not-found"
+      - "traefik.http.routers.not-found-https.priority=1"
+
+secrets:
+  dashboard_users:
+    file: ./secrets/dashboard_users

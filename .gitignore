@@ -1,10 +1,12 @@
 plan.md
 
 # TLS private keys
-infra/certs/*.key
+traefik/certs/*.key
+traefik/secrets/dashboard_users
+traefik/logs/
 
 # Go build output
-proxy/bin/
+custom-go/bin/
 
 # Docker override files
 docker-compose.override.yml
