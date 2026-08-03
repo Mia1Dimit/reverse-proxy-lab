@@ -67,6 +67,7 @@ export const PROJECTS = [
     complexityReason: '15 Terraform modules, multi-account, CloudFront + Lambda@Edge + DynamoDB single-table design.',
     stackPosition: 'Cloud · Platform',
     githubUrl: 'https://github.com/Mia1Dimit/EuroleagueTech-Platform',
+    liveUrl: 'https://REPLACE_WITH_CLOUDFRONT_URL.cloudfront.net',
     metric: '20 Euroleague teams mapped',
     special: false,
     architectureNote: '15 Terraform modules · CloudFront + Lambda + DynamoDB',

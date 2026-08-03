@@ -1,3 +1,4 @@
+import { track } from '../analytics';
 import './ProjectCard.css';
 
 const STATUS_META = {
@@ -34,7 +35,7 @@ export default function ProjectCard({ project, featured = false }) {
   return (
     <article
       className={`project-card ${featured ? 'featured' : ''} ${project.special ? 'special' : ''}`}
-      onClick={() => { window.location.href = `/portfolio/${project.slug}`; }}
+      onClick={() => { track('project-click', { slug: project.slug }); window.location.href = `/portfolio/${project.slug}`; }}
       style={{ cursor: 'pointer' }}
     >
       {featured && <span className="featured-tag">FEATURED</span>}

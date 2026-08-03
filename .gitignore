@@ -4,6 +4,7 @@ plan.md
 traefik/certs/*.key
 traefik/secrets/dashboard_users
 traefik/logs/
+traefik/.env
 
 # Go build output
 custom-go/bin/

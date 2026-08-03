@@ -1,3 +1,4 @@
+import { track } from '../analytics';
 import './FilterBar.css';
 
 const CATEGORIES = ['All', 'Platform Engineering', 'Infrastructure', 'AI & Intelligence', 'Automation', 'Research & Sensing'];
@@ -11,7 +12,7 @@ export default function FilterBar({ activeCategory, setActiveCategory, activeSta
           <button
             key={c}
             className={`pill ${activeCategory === c ? 'active' : ''}`}
-            onClick={() => setActiveCategory(c)}
+            onClick={() => { setActiveCategory(c); track('filter-category', { category: c }); }}
           >
             {c}
           </button>
@@ -22,7 +23,7 @@ export default function FilterBar({ activeCategory, setActiveCategory, activeSta
           <button
             key={s}
             className={`pill pill--status ${activeStatus === s ? 'active' : ''} status-${s.toLowerCase()}`}
-            onClick={() => setActiveStatus(s)}
+            onClick={() => { setActiveStatus(s); track('filter-status', { status: s }); }}
           >
             {s}
           </button>

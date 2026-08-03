@@ -90,6 +90,47 @@ services:
       - "traefik.http.routers.portfolio-detail-https.middlewares=rate-limit@file,secure-headers@file"
       - "traefik.http.routers.portfolio-detail-https.service=portfolio-detail"
 
+  # Analytics — Umami self-hosted, accessible only over HTTPS at /analytics
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    container_name: umami
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD}@umami-db:5432/umami
+      DATABASE_TYPE: postgresql
+      APP_SECRET: ${UMAMI_APP_SECRET}
+      BASE_PATH: /analytics
+    depends_on:
+      umami-db:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.umami.loadbalancer.server.port=3000"
+      - "traefik.http.routers.umami-http.rule=PathPrefix(`/analytics`)"
+      - "traefik.http.routers.umami-http.entrypoints=web"
+      - "traefik.http.routers.umami-http.middlewares=redirect-https"
+      - "traefik.http.routers.umami-https.rule=PathPrefix(`/analytics`)"
+      - "traefik.http.routers.umami-https.entrypoints=websecure"
+      - "traefik.http.routers.umami-https.tls=true"
+      - "traefik.http.routers.umami-https.middlewares=secure-headers@file"
+      - "traefik.http.routers.umami-https.service=umami"
+
+  umami-db:
+    image: postgres:15-alpine
+    container_name: umami-db
+    env_file: .env
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD}
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U umami -d umami"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   # Fallback service for unknown routes
   not-found:
     image: nginx:alpine
@@ -116,3 +157,7 @@ services:
 secrets:
   dashboard_users:
     file: ./secrets/dashboard_users
+
+volumes:
+  umami-db-data:
+
