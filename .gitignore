@@ -17,3 +17,7 @@ landing.md
 
 services/landing/node_modules/
 services/landing/dist/
+services/about-me/node_modules/
+services/about-me/dist/
+services/certifications/node_modules/
+services/certifications/dist/
