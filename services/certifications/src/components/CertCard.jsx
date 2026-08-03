@@ -1,44 +1,31 @@
 import { useState } from 'react';
 import './CertCard.css';
 
-export default function CertCard({ cert }) {
-  const [flipped, setFlipped] = useState(false);
-
+function ActiveCard({ cert }) {
   return (
-    <div
-      className={`cert-card ${flipped ? 'flipped' : ''}`}
-      onClick={() => setFlipped(f => !f)}
-      onKeyDown={e => e.key === 'Enter' && setFlipped(f => !f)}
-      role="button"
-      tabIndex={0}
-      aria-label={`${cert.name} — click to see details`}
-    >
+    <div className="cert-card active" tabIndex={0} aria-label={cert.name}>
       <div className="cert-card-inner">
-        {/* Front */}
         <div className="cert-face cert-front">
-          <div className="cert-badge-placeholder" aria-hidden="true">
-            {cert.tag}
+          <div className="cert-badge-placeholder" aria-hidden="true">{cert.tag}</div>
+          <div className="cert-front-meta">
+            <span className="cert-code">{cert.code}</span>
+            <span className="cert-active-dot" aria-label="Active">&#9679; Active</span>
           </div>
           <h3 className="cert-name">{cert.name}</h3>
           <p className="cert-issuer">{cert.issuer}</p>
-          <span className="cert-hint">Click for details</span>
         </div>
 
-        {/* Back */}
         <div className="cert-face cert-back">
           <dl className="cert-details">
-            <dt>Issued</dt>
-            <dd>{cert.issued}</dd>
+            <dt>Issued</dt>   <dd>{cert.issued}</dd>
             {cert.expires && <><dt>Expires</dt><dd>{cert.expires}</dd></>}
-            <dt>Credential ID</dt>
-            <dd className="cert-mono">{cert.credentialId}</dd>
+            <dt>Credential ID</dt><dd className="cert-mono">{cert.credentialId}</dd>
           </dl>
           <a
             className="cert-verify"
             href={cert.verifyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={e => e.stopPropagation()}
           >
             Verify →
           </a>
@@ -46,4 +33,36 @@ export default function CertCard({ cert }) {
       </div>
     </div>
   );
+}
+
+function InProgressCard({ cert }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      className="cert-card in-progress"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      tabIndex={0}
+      aria-label={`${cert.name} — in progress`}
+    >
+      <div className="cert-badge-placeholder greyed" aria-hidden="true">{cert.tag}</div>
+      <h3 className="cert-name">{cert.name}</h3>
+      <p className="cert-issuer">{cert.issuer}</p>
+      <div className="cert-progress-wrap" role="progressbar" aria-valuenow={cert.progress} aria-valuemin={0} aria-valuemax={100}>
+        <div className="cert-progress-track">
+          <div
+            className="cert-progress-bar"
+            style={{ width: hovered ? `${cert.progress}%` : '0%' }}
+          />
+        </div>
+        <span className="cert-progress-label">{cert.progress}%</span>
+      </div>
+      <p className="cert-target">Target: {cert.targetDate}</p>
+    </div>
+  );
+}
+
+export default function CertCard({ cert }) {
+  if (cert.status === 'in-progress') return <InProgressCard cert={cert} />;
+  return <ActiveCard cert={cert} />;
 }

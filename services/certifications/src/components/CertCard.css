@@ -1,8 +1,10 @@
+/* ── Active card ───────────────────────────────────────────────── */
 .cert-card {
   height: 220px;
   perspective: 1000px;
-  cursor: pointer;
 }
+
+.cert-card.active { cursor: default; }
 
 .cert-card-inner {
   position: relative;
@@ -12,7 +14,9 @@
   transform-style: preserve-3d;
 }
 
-.cert-card.flipped .cert-card-inner {
+/* Flip on hover and keyboard focus for active cards */
+.cert-card.active:hover .cert-card-inner,
+.cert-card.active:focus-within .cert-card-inner {
   transform: rotateY(180deg);
 }
 
@@ -31,7 +35,7 @@
   transition: border-color var(--transition-base);
 }
 
-.cert-card:hover .cert-face {
+.cert-card.active:hover .cert-face {
   border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
@@ -54,6 +58,23 @@
   color: var(--color-accent);
 }
 
+.cert-front-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cert-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.cert-active-dot {
+  font-size: var(--text-xs);
+  color: #22c55e;
+}
+
 .cert-name {
   font-size: var(--text-sm);
   font-weight: 600;
@@ -68,13 +89,6 @@
   font-family: var(--font-mono);
 }
 
-.cert-hint {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  opacity: 0.6;
-  margin-top: auto;
-}
-
 .cert-details {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -84,7 +98,6 @@
 
 .cert-details dt { color: var(--color-text-muted); }
 .cert-details dd { color: var(--color-text); }
-
 .cert-mono { font-family: var(--font-mono); }
 
 .cert-verify {
@@ -102,4 +115,66 @@
 
 .cert-verify:hover {
   background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+/* ── In Progress card ──────────────────────────────────────────── */
+.cert-card.in-progress {
+  height: 220px;
+  border-radius: var(--radius-lg);
+  border: 1.5px dashed color-mix(in srgb, var(--color-accent) 35%, transparent);
+  background: var(--color-surface);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  opacity: 0.8;
+  cursor: default;
+  transition: opacity var(--transition-base), border-color var(--transition-base);
+}
+
+.cert-card.in-progress:hover {
+  opacity: 1;
+  border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+}
+
+.cert-badge-placeholder.greyed {
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  opacity: 0.5;
+}
+
+.cert-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+}
+
+.cert-progress-track {
+  flex: 1;
+  height: 4px;
+  background: var(--color-surface-alt);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.cert-progress-bar {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 999px;
+  transition: width 0.8s ease;
+}
+
+.cert-progress-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+.cert-target {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
 }
