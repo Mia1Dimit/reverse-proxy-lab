@@ -65,7 +65,7 @@ services:
       - "traefik.http.routers.landing-https.rule=Path(`/`)"
       - "traefik.http.routers.landing-https.entrypoints=websecure"
       - "traefik.http.routers.landing-https.tls=true"
-      - "traefik.http.routers.landing-https.middlewares=rate-limit,secure-headers@file"
+      - "traefik.http.routers.landing-https.middlewares=rate-limit@file,secure-headers@file"
       - "traefik.http.routers.landing-https.service=landing"
 
   # About me page placeholder
@@ -83,7 +83,7 @@ services:
       - "traefik.http.routers.about-me-https.rule=PathPrefix(`/about-me`)"
       - "traefik.http.routers.about-me-https.entrypoints=websecure"
       - "traefik.http.routers.about-me-https.tls=true"
-      - "traefik.http.routers.about-me-https.middlewares=rate-limit,secure-headers@file"
+      - "traefik.http.routers.about-me-https.middlewares=rate-limit@file,secure-headers@file"
       - "traefik.http.routers.about-me-https.service=about-me"
 
   # Certifications page placeholder
@@ -101,7 +101,7 @@ services:
       - "traefik.http.routers.certs-https.rule=PathPrefix(`/certifications`)"
       - "traefik.http.routers.certs-https.entrypoints=websecure"
       - "traefik.http.routers.certs-https.tls=true"
-      - "traefik.http.routers.certs-https.middlewares=rate-limit,secure-headers@file"
+      - "traefik.http.routers.certs-https.middlewares=rate-limit@file,secure-headers@file"
       - "traefik.http.routers.certs-https.service=certifications"
 
   # Portfolio pages are handled by a single backend.
@@ -122,7 +122,7 @@ services:
       - "traefik.http.routers.portfolio-detail-https.rule=PathPrefix(`/portfolio`)"
       - "traefik.http.routers.portfolio-detail-https.entrypoints=websecure"
       - "traefik.http.routers.portfolio-detail-https.tls=true"
-      - "traefik.http.routers.portfolio-detail-https.middlewares=rate-limit,secure-headers@file"
+      - "traefik.http.routers.portfolio-detail-https.middlewares=rate-limit@file,secure-headers@file"
       - "traefik.http.routers.portfolio-detail-https.service=portfolio-detail"
 
   # Fallback service for unknown routes
