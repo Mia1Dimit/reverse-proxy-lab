@@ -1,0 +1,16 @@
+{
+  "name": "@portfolio/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "design-tokens.css",
+    "NavBar.jsx",
+    "NavBar.css",
+    "index.js"
+  ],
+  "peerDependencies": {
+    "react": ">=18"
+  }
+}
