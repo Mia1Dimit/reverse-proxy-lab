@@ -67,7 +67,7 @@ export const PROJECTS = [
     complexityReason: '15 Terraform modules, multi-account, CloudFront + Lambda@Edge + DynamoDB single-table design.',
     stackPosition: 'Cloud · Platform',
     githubUrl: 'https://github.com/Mia1Dimit/EuroleagueTech-Platform',
-    liveUrl: 'https://REPLACE_WITH_CLOUDFRONT_URL.cloudfront.net',
+    liveUrl: 'https://d3n25hf9bvh9rw.cloudfront.net/',
     metric: '20 Euroleague teams mapped',
     special: false,
     architectureNote: '15 Terraform modules · CloudFront + Lambda + DynamoDB',
@@ -108,22 +108,6 @@ export const PROJECTS = [
   },
 
   // ── AI & Intelligence ──────────────────────────────────────────────────────
-  {
-    id: 'linkedin-agent',
-    slug: 'linkedin-agent',
-    name: 'LinkedIn Intelligence Agent',
-    category: 'AI & Intelligence',
-    status: 'wip',
-    featured: false,
-    description: 'Agentic system for LinkedIn intelligence — multi-step reasoning over career and company data with tool use and persistent memory.',
-    techStack: ['Python', 'LangGraph', 'OpenAI', 'FastAPI'],
-    complexity: 5,
-    complexityReason: 'Multi-agent orchestration, tool use, persistent memory, evaluation harness.',
-    stackPosition: 'AI · Agents',
-    githubUrl: 'https://github.com/Mia1Dimit/LinkedIn-Agent',
-    metric: null,
-    special: false,
-  },
   {
     id: 'basketball-academy-agent',
     slug: 'basketball-academy-agent',
