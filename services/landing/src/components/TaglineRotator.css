@@ -1,0 +1,34 @@
+.tagline-rotator {
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tagline {
+  font-size: clamp(var(--text-lg), 3vw, var(--text-2xl));
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tagline.visible  { opacity: 1; }
+
+.tagline.final {
+  color: var(--color-accent);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.cursor {
+  display: inline-block;
+  animation: blink 0.8s step-end infinite;
+  color: var(--color-accent);
+  margin-left: 1px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}

@@ -1,0 +1,58 @@
+.waveform-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.waveform {
+  width: min(420px, 90vw);
+  height: 40px;
+  display: block;
+  overflow: visible;
+}
+
+.waveform path {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.75;
+  animation: waveform-pulse 3s ease-in-out infinite;
+  transition: opacity var(--transition-fast), filter var(--transition-fast);
+}
+
+.waveform.bright path {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px var(--color-accent));
+}
+
+@keyframes waveform-pulse {
+  0%, 100% { filter: drop-shadow(0 0 2px var(--color-accent)); opacity: 0.75; }
+  50%       { filter: drop-shadow(0 0 8px var(--color-accent)); opacity: 1;    }
+}
+
+.waveform-egg {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  animation: egg-fade 2.8s ease forwards;
+}
+
+@keyframes egg-fade {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+  15%  { opacity: 1; transform: translateX(-50%) translateY(0);    }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}

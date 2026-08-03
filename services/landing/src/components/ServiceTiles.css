@@ -1,0 +1,52 @@
+.tiles-section {
+  padding: var(--space-16) var(--space-8);
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-6);
+  list-style: none;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--transition-base), border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.tile:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--color-accent) 8%, transparent);
+}
+
+.tile-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.tile-body {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.tile-cta {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  margin-top: var(--space-2);
+}
