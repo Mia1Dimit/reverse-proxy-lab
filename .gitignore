@@ -11,5 +11,9 @@ custom-go/bin/
 # Docker override files
 docker-compose.override.yml
 
-plan-website.mdservices/landing/node_modules/
+plan-website.md
+about-me.md
+landing.md
+
+services/landing/node_modules/
 services/landing/dist/
