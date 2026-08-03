@@ -1,0 +1,69 @@
+.project-section {
+  margin-bottom: var(--space-12);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.section-rule {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+.section-rule-line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+  opacity: 0.4;
+}
+
+.section-filtered-hint {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  opacity: 0.4;
+}
+
+/* Collapse animation using grid-template-rows 0fr trick */
+.section-body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
+}
+
+.section-body.collapsed {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+.section-body-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6);
+  list-style: none;
+  padding-bottom: var(--space-2);
+}
+
+.card-hidden {
+  display: none;
+}
+
+.section-empty {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  opacity: 0.5;
+  padding: var(--space-8) 0;
+}

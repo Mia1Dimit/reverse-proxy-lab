@@ -1,0 +1,47 @@
+.filter-bar {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 50;
+  background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.filter-row {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-row--status { padding-top: var(--space-1); }
+
+.pill {
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.pill:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+.pill.active {
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Status pill accent colours */
+.pill--status.active.status-live     { border-color: #22c55e; color: #22c55e; background: color-mix(in srgb, #22c55e 10%, transparent); }
+.pill--status.active.status-research { border-color: var(--color-secondary); color: var(--color-secondary); background: color-mix(in srgb, var(--color-secondary) 10%, transparent); }
+.pill--status.active.status-wip      { border-color: var(--color-text-muted); color: var(--color-text); }

@@ -72,8 +72,9 @@ services:
   # The application behind this service should handle:
   # - /portfolio
   # - /portfolio/<slug>
+  # Portfolio — real service (built from services/portfolio/)
   portfolio-detail:
-    image: traefik/whoami
+    image: portfolio:local
     container_name: portfolio-detail
     labels:
       - "traefik.enable=true"

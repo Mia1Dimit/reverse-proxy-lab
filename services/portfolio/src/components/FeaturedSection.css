@@ -1,0 +1,25 @@
+.featured-section {
+  margin-bottom: var(--space-16);
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  opacity: 0.5;
+  margin-bottom: var(--space-6);
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.featured-hero {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 640px) {
+  .featured-grid { grid-template-columns: 1fr; }
+}

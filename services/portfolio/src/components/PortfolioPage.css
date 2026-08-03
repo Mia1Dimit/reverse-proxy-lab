@@ -1,0 +1,33 @@
+.portfolio-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--space-16) var(--space-8) var(--space-8);
+}
+
+.portfolio-title {
+  font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl));
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.portfolio-subtitle {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.portfolio-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--space-12) var(--space-8);
+  flex: 1;
+}
