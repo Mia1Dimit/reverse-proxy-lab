@@ -5,6 +5,8 @@ traefik/certs/*.key
 traefik/secrets/dashboard_users
 traefik/logs/
 traefik/.env
+traefik/launch.sh
+
 
 # Go build output
 custom-go/bin/
@@ -26,3 +28,5 @@ services/certifications/node_modules/
 services/certifications/dist/
 services/portfolio/node_modules/
 services/portfolio/dist/
+
+traefik/launch.sh

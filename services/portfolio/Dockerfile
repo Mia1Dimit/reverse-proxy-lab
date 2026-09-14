@@ -1,6 +1,6 @@
 FROM node:24-alpine AS builder
 WORKDIR /app
-COPY services/shared/ /shared/
+COPY services/shared/ ../shared/
 COPY services/portfolio/package*.json ./
 RUN npm ci
 COPY services/portfolio/ .

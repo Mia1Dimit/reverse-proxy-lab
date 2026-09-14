@@ -5,6 +5,11 @@ http:
         average: 100
         burst: 50
 
+    umami-strip:
+      stripPrefix:
+        prefixes:
+          - /analytics
+
     secure-headers:
       headers:
         frameDeny: true

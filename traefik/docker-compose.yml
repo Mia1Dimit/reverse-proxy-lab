@@ -36,11 +36,18 @@ services:
 
       # Dashboard protected by basic auth file (mounted as a secret)
       - "traefik.http.middlewares.dashboard-auth.basicauth.usersfile=/run/secrets/dashboard_users"
-      - "traefik.http.routers.traefik-dashboard.rule=PathPrefix(`/dashboard`) || PathPrefix(`/api`)"
+      
+      - "traefik.http.routers.traefik-dashboard-http.rule=Host(`dashboard.localhost`)"
+      - "traefik.http.routers.traefik-dashboard-http.entrypoints=web"
+      - "traefik.http.routers.traefik-dashboard-http.middlewares=redirect-https"
+      - "traefik.http.routers.traefik-dashboard-http.priority=100"
+      
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.localhost`)"
       - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
       - "traefik.http.routers.traefik-dashboard.tls=true"
       - "traefik.http.routers.traefik-dashboard.middlewares=dashboard-auth,secure-headers@file"
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
+      - "traefik.http.routers.traefik-dashboard.priority=100"
 
       # Operational endpoint for health checks
       - "traefik.http.routers.ping.rule=Path(`/healthz`)"
@@ -52,21 +59,26 @@ services:
   # Static sites: landing (/), about-me (/about-me), certifications (/certifications)
   # All served from one nginx image; nginx routes internally by path prefix.
   static-sites:
+    build:
+      context: ../
+      dockerfile: services/static-sites/Dockerfile
     image: static-sites:local
     container_name: static-sites
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.static-sites.loadbalancer.server.port=80"
 
-      - "traefik.http.routers.static-sites-http.rule=Path(`/`) || PathPrefix(`/assets/`) || PathPrefix(`/about-me`) || PathPrefix(`/certifications`)"
+      - "traefik.http.routers.static-sites-http.rule=Host(`localhost`) && (Path(`/`) || PathPrefix(`/assets/`) || PathPrefix(`/about-me`) || PathPrefix(`/certifications`))"
       - "traefik.http.routers.static-sites-http.entrypoints=web"
       - "traefik.http.routers.static-sites-http.middlewares=redirect-https"
+      - "traefik.http.routers.static-sites-http.priority=50"
 
-      - "traefik.http.routers.static-sites-https.rule=Path(`/`) || PathPrefix(`/assets/`) || PathPrefix(`/about-me`) || PathPrefix(`/certifications`)"
+      - "traefik.http.routers.static-sites-https.rule=Host(`localhost`) && (Path(`/`) || PathPrefix(`/assets/`) || PathPrefix(`/about-me`) || PathPrefix(`/certifications`))"
       - "traefik.http.routers.static-sites-https.entrypoints=websecure"
       - "traefik.http.routers.static-sites-https.tls=true"
       - "traefik.http.routers.static-sites-https.middlewares=rate-limit@file,secure-headers@file"
       - "traefik.http.routers.static-sites-https.service=static-sites"
+      - "traefik.http.routers.static-sites-https.priority=50"
 
   # Portfolio pages are handled by a single backend.
   # The application behind this service should handle:
@@ -74,21 +86,26 @@ services:
   # - /portfolio/<slug>
   # Portfolio — real service (built from services/portfolio/)
   portfolio-detail:
+    build:
+      context: ../
+      dockerfile: services/portfolio/Dockerfile
     image: portfolio:local
     container_name: portfolio-detail
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.portfolio-detail.loadbalancer.server.port=80"
 
-      - "traefik.http.routers.portfolio-detail-http.rule=PathPrefix(`/portfolio`)"
+      - "traefik.http.routers.portfolio-detail-http.rule=Host(`localhost`) && PathPrefix(`/portfolio`)"
       - "traefik.http.routers.portfolio-detail-http.entrypoints=web"
       - "traefik.http.routers.portfolio-detail-http.middlewares=redirect-https"
+      - "traefik.http.routers.portfolio-detail-http.priority=50"
 
-      - "traefik.http.routers.portfolio-detail-https.rule=PathPrefix(`/portfolio`)"
+      - "traefik.http.routers.portfolio-detail-https.rule=Host(`localhost`) && PathPrefix(`/portfolio`)"
       - "traefik.http.routers.portfolio-detail-https.entrypoints=websecure"
       - "traefik.http.routers.portfolio-detail-https.tls=true"
       - "traefik.http.routers.portfolio-detail-https.middlewares=rate-limit@file,secure-headers@file"
       - "traefik.http.routers.portfolio-detail-https.service=portfolio-detail"
+      - "traefik.http.routers.portfolio-detail-https.priority=50"
 
   # Analytics — Umami self-hosted, accessible only over HTTPS at /analytics
   umami:
@@ -99,21 +116,25 @@ services:
       DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD}@umami-db:5432/umami
       DATABASE_TYPE: postgresql
       APP_SECRET: ${UMAMI_APP_SECRET}
-      BASE_PATH: /analytics
+      BASE_PATH: /
     depends_on:
       umami-db:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.umami.loadbalancer.server.port=3000"
-      - "traefik.http.routers.umami-http.rule=PathPrefix(`/analytics`)"
+      
+      - "traefik.http.routers.umami-http.rule=Host(`analytics.localhost`)"
       - "traefik.http.routers.umami-http.entrypoints=web"
       - "traefik.http.routers.umami-http.middlewares=redirect-https"
-      - "traefik.http.routers.umami-https.rule=PathPrefix(`/analytics`)"
+      - "traefik.http.routers.umami-http.priority=50"
+      
+      - "traefik.http.routers.umami-https.rule=Host(`analytics.localhost`)"
       - "traefik.http.routers.umami-https.entrypoints=websecure"
       - "traefik.http.routers.umami-https.tls=true"
       - "traefik.http.routers.umami-https.middlewares=secure-headers@file"
       - "traefik.http.routers.umami-https.service=umami"
+      - "traefik.http.routers.umami-https.priority=50"
 
   umami-db:
     image: postgres:15-alpine
@@ -142,12 +163,12 @@ services:
       - "traefik.http.services.not-found.loadbalancer.server.port=80"
 
       # Lowest priority catch-all, used only when no other router matches
-      - "traefik.http.routers.not-found-http.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.not-found-http.rule=Host(`localhost`) && PathPrefix(`/`)"
       - "traefik.http.routers.not-found-http.entrypoints=web"
       - "traefik.http.routers.not-found-http.middlewares=redirect-https"
       - "traefik.http.routers.not-found-http.priority=1"
 
-      - "traefik.http.routers.not-found-https.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.not-found-https.rule=Host(`localhost`) && PathPrefix(`/`)"
       - "traefik.http.routers.not-found-https.entrypoints=websecure"
       - "traefik.http.routers.not-found-https.tls=true"
       - "traefik.http.routers.not-found-https.middlewares=secure-headers@file"

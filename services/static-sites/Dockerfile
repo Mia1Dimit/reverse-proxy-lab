@@ -1,7 +1,7 @@
 # ── Landing ────────────────────────────────────────────────────────────────────
 FROM node:24-alpine AS landing-builder
 WORKDIR /app
-COPY services/shared/ /shared/
+COPY services/shared/ ../shared/
 COPY services/landing/package*.json ./
 RUN npm ci
 COPY services/landing/ .
@@ -10,7 +10,7 @@ RUN npm run build
 # ── About Me ───────────────────────────────────────────────────────────────────
 FROM node:24-alpine AS about-me-builder
 WORKDIR /app
-COPY services/shared/ /shared/
+COPY services/shared/ ../shared/
 COPY services/about-me/package*.json ./
 RUN npm ci
 COPY services/about-me/ .
@@ -19,7 +19,7 @@ RUN npm run build
 # ── Certifications ─────────────────────────────────────────────────────────────
 FROM node:24-alpine AS certs-builder
 WORKDIR /app
-COPY services/shared/ /shared/
+COPY services/shared/ ../shared/
 COPY services/certifications/package*.json ./
 RUN npm ci
 COPY services/certifications/ .
