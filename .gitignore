@@ -30,3 +30,6 @@ services/portfolio/node_modules/
 services/portfolio/dist/
 
 traefik/launch.sh
+
+
+/logos/
