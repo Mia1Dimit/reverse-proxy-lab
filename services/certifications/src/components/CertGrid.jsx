@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { CERTIFICATIONS } from '../data/certifications';
 import CertCard from './CertCard';
-import LearningPath from './LearningPath';
 import './CertGrid.css';
 
-const FILTERS = ['All', 'AWS', 'Azure', 'In Progress', 'Other'];
+const FILTERS = ['All', 'Platform Engineering', 'Anthropic', 'AWS', 'Business'];
 
 function filterCerts(certs, active) {
-  if (active === 'All') return certs.filter(c => c.status !== 'expired');
-  if (active === 'In Progress') return certs.filter(c => c.status === 'in-progress');
-  return certs.filter(c => c.tag === active && c.status !== 'expired');
+  if (active === 'All') return certs;
+  return certs.filter(c => c.tag === active);
 }
 
 export default function CertGrid() {
@@ -43,8 +41,6 @@ export default function CertGrid() {
           </li>
         ))}
       </ul>
-
-      <LearningPath />
     </section>
   );
 }
