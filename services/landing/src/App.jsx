@@ -10,6 +10,9 @@ export default function App() {
         <Hero />
         <ServiceTiles />
       </main>
+      <footer className="landing-footer">
+        <span className="routing-chip">served by traefik → landing</span>
+      </footer>
     </>
   );
 }
