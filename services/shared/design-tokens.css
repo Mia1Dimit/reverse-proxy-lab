@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 /* ─── Colour palette ─────────────────────────────────────────── */
 :root {
   --color-bg:           #0a0f1e;
@@ -12,6 +14,7 @@
 
   /* ─── Typography ───────────────────────────────────────────── */
   --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', 'Geist Mono', monospace;
   --text-xs:   0.75rem;
   --text-sm:   0.875rem;
@@ -44,4 +47,17 @@
   /* ─── Motion ───────────────────────────────────────────────── */
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
+}
+
+body {
+  background-image: radial-gradient(ellipse 80% 440px at 50% 0%, color-mix(in srgb, var(--color-accent) 8%, transparent), transparent 75%) !important;
+  background-repeat: no-repeat;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-display); }
+
+.hero {
+  background-image:
+    radial-gradient(ellipse at 48% 20%, color-mix(in srgb, var(--color-accent) 12%, transparent), transparent 68%),
+    radial-gradient(ellipse at 93% 90%, color-mix(in srgb, var(--color-secondary) 5%, transparent), transparent 55%) !important;
 }
