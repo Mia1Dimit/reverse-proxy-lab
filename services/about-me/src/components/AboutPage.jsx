@@ -14,6 +14,8 @@ const CHAPTERS = [
     place: 'Patras & Tripoli',
     years: '2018–2024',
     title: 'Where it began',
+    stat: 'Integrated MEng · Patras',
+    skills: ['Research', 'Signal processing', 'Embedded systems'],
     paragraphs: [
       'I was born and raised in Greece. School, basketball, and eventually an integrated Master of Engineering in Electrical and Computer Engineering at the University of Patras shaped my early years.',
       'My thesis and research drew me into wireless sEMG sensors and muscle activity. That work led to a publication on measuring muscle fatigue in real time and taught me to care about the quality of a signal before trusting the system built around it.',
@@ -30,6 +32,8 @@ const CHAPTERS = [
     place: 'Poznan',
     years: '2022',
     title: 'A wider view',
+    stat: '1 semester · Erasmus',
+    skills: ['Erasmus', 'Adaptability'],
     paragraphs: [
       'I spent an Erasmus semester in Poznan. I attended lectures that introduced new perspectives on engineering while exploring the beauty of Poland.',
       'Living and studying abroad for the first time made me more comfortable stepping into unfamiliar places and learning as I went.',
@@ -42,6 +46,8 @@ const CHAPTERS = [
     place: 'Alicante',
     years: '2024–2025',
     title: 'My introduction to the cloud',
+    stat: 'First AWS deployment',
+    skills: ['AWS', 'Serverless', 'CI/CD'],
     paragraphs: [
       'A year in Alicante at the European Union Intellectual Property Office, working in the Digital Innovation Department. A good office with a sea view and a taste of what being a cloud engineer means.',
       'There I began building with AWS: Lambda, API Gateway, S3, and the automation needed to bring a serverless service into use. Outside the office there was plenty of sun and a castle above the city.',
@@ -58,6 +64,8 @@ const CHAPTERS = [
     place: 'Rome',
     years: '2025–current',
     title: 'Building platforms in Rome',
+    stat: '22+ apps · 3 environments',
+    skills: ['Platform engineering', 'Terraform', 'GenAI'],
     paragraphs: [
       'I now live in Rome and work as a Platform Engineer at Terna S.p.A. My work spans reusable Terraform modules, cloud infrastructure across Azure and AWS, and the pipelines that help teams ship reliably.',
       'It brings the earlier chapters together: curiosity about new technology, a habit of learning by building, and the discipline to make systems that hold up when conditions change.',
@@ -90,7 +98,7 @@ export default function AboutPage() {
         <div className="about-identity">
           <p className="about-kicker">ENGINEER / BUILDER</p>
           <h1>Dimitris Miaoulis</h1>
-          <p className="about-location">Rome, Italy</p>
+          <p className="about-location">Rome, Italy · EU-based</p>
           <p className="about-subtitle">Cloud engineer · IoT engineer · AI builder</p>
         </div>
         <nav className="country-picker" aria-label="Explore my story by country">
@@ -120,13 +128,11 @@ export default function AboutPage() {
 
       <div className="about-story" id="engineer-view">
         <header className="story-header">
-          <p className="about-kicker">FOUR PLACES / ONE STORY</p>
-          <h2>A life in four countries.</h2>
-          <p>Want to know more? Choose a country to see what I did there.</p>
+          <h2 className="about-kicker">BACKGROUND</h2>
         </header>
 
         <div className="country-chapters">
-          {CHAPTERS.map(({ id, flag, country, place, years, title, paragraphs, tasks, links }, index) => (
+          {CHAPTERS.map(({ id, flag, country, place, years, title, stat, skills, paragraphs, tasks, links }, index) => (
             <section
               key={id}
               id={`chapter-${id}`}
@@ -137,6 +143,12 @@ export default function AboutPage() {
               <p className="chapter-eyebrow">0{index + 1} / {country.toUpperCase()} <img src={flag} alt="" /></p>
               <p className="chapter-place">{place} <span>· {years}</span></p>
               <h3 id={`chapter-title-${id}`}>{title}</h3>
+              <div className="chapter-signals">
+                <span className="chapter-stat">{stat}</span>
+                <ul className="chapter-skills" aria-label={`${country} skills`}>
+                  {skills.map(skill => <li key={skill}>{skill}</li>)}
+                </ul>
+              </div>
               {paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
               {tasks && <div className="chapter-work">
                 <h4>What I work on</h4>
