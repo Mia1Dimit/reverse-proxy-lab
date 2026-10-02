@@ -6,7 +6,7 @@ export default function ServiceTiles() {
     <section id="services" className="tiles-section">
       <div className="tiles-heading">
         <span className="tiles-kicker">SELECTED WORK / 01</span>
-        <h2>Built, not just described.</h2>
+        <h2>Already bored? If not, have a look</h2>
       </div>
       <ul className="tiles-grid" role="list">
         <li className="tile-cell tile-lab">
@@ -26,7 +26,7 @@ export default function ServiceTiles() {
             <h3 className="tile-title">Stack today</h3>
             <p className="tile-body">Cloud platforms and the systems that run on them.</p>
             <ul className="stack-list">
-              <li>AWS</li><li>Terraform</li><li>Go</li><li>Python</li><li>React</li><li>Docker</li>
+              <li>AWS</li><li>Azure</li><li>Terraform</li><li>Docker</li><li>Azure DevOps</li><li>GitHub Actions</li>
             </ul>
           </div>
         </li>
