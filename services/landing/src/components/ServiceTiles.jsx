@@ -5,8 +5,7 @@ export default function ServiceTiles() {
   return (
     <section id="services" className="tiles-section">
       <div className="tiles-heading">
-        <span className="tiles-kicker">SELECTED WORK / 01</span>
-        <h2>Already bored? If not, have a look</h2>
+        <h2>Track Record</h2>
       </div>
       <ul className="tiles-grid" role="list">
         <li className="tile-cell tile-lab">

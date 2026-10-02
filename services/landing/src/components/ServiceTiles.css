@@ -1,15 +1,15 @@
 .tiles-section {
-  padding: var(--space-4) var(--space-8) var(--space-16);
+  padding: 0 var(--space-8) var(--space-16);
   max-width: var(--max-width);
   margin: 0 auto;
 }
 
-.tiles-heading { margin-bottom: var(--space-6); }
+.tiles-heading { margin-bottom: var(--space-2); }
 .tiles-kicker, .tile-kicker {
   font: var(--text-xs) var(--font-mono);
   color: #60c7c7;
 }
-.tiles-heading h2 { margin-top: var(--space-2); font-size: var(--text-xl); }
+.tiles-heading h2 { margin-top: var(--space-1); font-size: var(--text-xl); }
 
 .tiles-grid {
   display: grid;
@@ -119,7 +119,7 @@
 }
 
 @media (max-width: 600px) {
-  .tiles-section { padding: var(--space-4) var(--space-4) var(--space-12); }
+  .tiles-section { padding: 0 var(--space-4) var(--space-12); }
   .tiles-grid { grid-template-columns: minmax(0, 1fr); }
   .tile-lab, .tile-stack, .tile-research, .tile-certifications, .tile-cv { grid-column: 1; }
   .tile { min-height: 185px; }
