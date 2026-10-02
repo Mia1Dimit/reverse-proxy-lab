@@ -60,6 +60,10 @@ export default function ProjectCard({ project, featured = false }) {
 
       <p className="card-description">{project.description}</p>
 
+      {project.failureMode && (
+        <p className="card-failure-mode">{project.failureMode}</p>
+      )}
+
       {project.metric && (
         <p className="card-metric">{project.metric}</p>
       )}
