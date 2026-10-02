@@ -42,8 +42,11 @@ export default function ProjectCard({ project, featured = false }) {
 
       <div className="card-top">
         <span className="card-category">{project.category}</span>
-        <span className={`card-status ${status.cls}`}>
-          {status.symbol} {status.label}
+        <span className="card-status-group">
+          <span className={`card-status ${status.cls}`}>
+            {status.symbol} {status.label}
+          </span>
+          {project.inProgress && <span className="card-status status-wip">○ WIP</span>}
         </span>
       </div>
 
@@ -80,7 +83,7 @@ export default function ProjectCard({ project, featured = false }) {
       <p className="card-stack-position">{project.stackPosition}</p>
 
       <div className="card-cta" onClick={e => e.stopPropagation()}>
-        <a className="btn btn-primary" href={`/portfolio/${project.slug}`}>→ Case study</a>
+        <a className="btn btn-primary" href={`/portfolio/${project.slug}`}>→ Summary</a>
         <a className="btn btn-ghost" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
           GitHub ↗
         </a>

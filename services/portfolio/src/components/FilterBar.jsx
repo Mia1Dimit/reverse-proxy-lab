@@ -1,7 +1,7 @@
 import { track } from '../analytics';
 import './FilterBar.css';
 
-const CATEGORIES = ['All', 'Platform Engineering', 'Infrastructure', 'AI & Intelligence', 'Automation', 'Research & Sensing'];
+const CATEGORIES = ['All', 'Platforms', 'Infrastructure', 'AI & Intelligence', 'Automation', 'Research & Sensing'];
 const STATUSES   = ['All', 'Live', 'Research', 'WIP'];
 
 export default function FilterBar({ activeCategory, setActiveCategory, activeStatus, setActiveStatus }) {

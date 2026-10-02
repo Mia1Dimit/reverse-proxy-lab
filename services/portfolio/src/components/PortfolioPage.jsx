@@ -3,7 +3,7 @@ import FilterBar from './FilterBar';
 import FeaturedSection from './FeaturedSection';
 import ProjectSection from './ProjectSection';
 import Footer from './Footer';
-import { PROJECTS, SECTIONS, sortByStatus } from '../data/projects';
+import { PROJECTS, SECTIONS, sortByStatus, matchesStatus } from '../data/projects';
 import './PortfolioPage.css';
 
 const featured   = PROJECTS.filter(p => p.featured);
@@ -17,7 +17,7 @@ export default function PortfolioPage() {
     <div className="portfolio-page">
       <header className="portfolio-header">
         <h1 className="portfolio-title">Portfolio</h1>
-        <p className="portfolio-subtitle">Built across the full stack. Literally.</p>
+        <p className="portfolio-subtitle">Experimenting ideas and services</p>
       </header>
 
       <FilterBar
@@ -29,7 +29,7 @@ export default function PortfolioPage() {
 
       <div className="portfolio-content">
         {(activeCategory === 'All') && (
-          <FeaturedSection projects={featured} />
+          <FeaturedSection projects={featured.filter(project => matchesStatus(project, activeStatus))} />
         )}
 
         {SECTIONS.map(section => (

@@ -1,12 +1,10 @@
 import './ProjectSection.css';
 import ProjectCard from './ProjectCard';
+import { matchesStatus } from '../data/projects';
 
 export default function ProjectSection({ category, projects, activeCategory, activeStatus }) {
   const categoryMatch = activeCategory === 'All' || activeCategory === category;
-  const statusFilter  = activeStatus === 'All' ? null : activeStatus.toLowerCase();
-  const visible = statusFilter
-    ? projects.filter(p => p.status === statusFilter)
-    : projects;
+  const visible = projects.filter(project => matchesStatus(project, activeStatus));
 
   // Section collapses when a different category is active
   const collapsed = !categoryMatch;
@@ -24,7 +22,7 @@ export default function ProjectSection({ category, projects, activeCategory, act
         <div className="section-body-inner">
           <ul className="section-grid" role="list">
             {visible.map(p => (
-              <li key={p.id} className={statusFilter && p.status !== statusFilter ? 'card-hidden' : ''}>
+              <li key={p.id}>
                 <ProjectCard project={p} />
               </li>
             ))}

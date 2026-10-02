@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { PROJECTS } from '../data/projects';
-import { PROJECT_DETAILS } from '../data/projectDetails';
+import { PROJECT_DETAILS, PROJECT_USE_CASES } from '../data/projectDetails';
 import './ProjectDetailPage.css';
 
 const STATUS_COLOUR = { live: '#22c55e', research: 'var(--color-secondary)', wip: 'var(--color-text-muted)' };
@@ -8,7 +8,8 @@ const STATUS_COLOUR = { live: '#22c55e', research: 'var(--color-secondary)', wip
 export default function ProjectDetailPage() {
   const { slug } = useParams();
   const project = PROJECTS.find(p => p.slug === slug);
-  const detail  = PROJECT_DETAILS[slug];
+  const summary = PROJECT_DETAILS[slug];
+  const useCase = PROJECT_USE_CASES[slug];
 
   if (!project) {
     return (
@@ -31,6 +32,9 @@ export default function ProjectDetailPage() {
           <span className="detail-status" style={{ color: STATUS_COLOUR[project.status] }}>
             {project.status.toUpperCase()}
           </span>
+          {project.inProgress && (
+            <span className="detail-status" style={{ color: STATUS_COLOUR.wip }}>WIP</span>
+          )}
         </div>
         <h1 className="detail-title">{project.name}</h1>
         {project.architectureNote && (
@@ -58,51 +62,15 @@ export default function ProjectDetailPage() {
         </div>
       </section>
 
-      {!detail ? (
-        <p className="detail-placeholder">Case study coming soon.</p>
-      ) : (
-        <>
-          {/* The Why */}
-          <section className="detail-section">
-            <h2 className="detail-section-title">// The problem</h2>
-            <p className="detail-text">{detail.why}</p>
-          </section>
+      <section className="detail-section">
+        <h2 className="detail-section-title">// About the project</h2>
+        <p className="detail-text">{summary || 'Summary unavailable.'}</p>
+      </section>
 
-          {/* Key decisions */}
-          <section className="detail-section">
-            <h2 className="detail-section-title">// Key decisions</h2>
-            <ul className="detail-decisions">
-              {detail.decisions.map(d => (
-                <li key={d.title} className="decision-card">
-                  <h3 className="decision-title">{d.title}</h3>
-                  <p className="decision-detail">{d.detail}</p>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* Tech rationale */}
-          <section className="detail-section">
-            <h2 className="detail-section-title">// Stack rationale</h2>
-            <dl className="detail-rationale">
-              {detail.techRationale.map(t => (
-                <div key={t.tech} className="rationale-row">
-                  <dt className="rationale-tech">{t.tech}</dt>
-                  <dd className="rationale-reason">{t.reason}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-
-          {/* Outcome */}
-          {detail.outcome && (
-            <section className="detail-section detail-outcome">
-              <h2 className="detail-section-title">// Outcome</h2>
-              <p className="detail-text detail-text--accent">{detail.outcome}</p>
-            </section>
-          )}
-        </>
-      )}
+      <section className="detail-section">
+        <h2 className="detail-section-title">// Use Case</h2>
+        <p className="detail-text">{useCase}</p>
+      </section>
     </article>
   );
 }
