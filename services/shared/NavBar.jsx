@@ -16,9 +16,8 @@ function isActive(href) {
 export default function NavBar() {
   return (
     <nav className="navbar" role="navigation" aria-label="Main navigation">
-      <a className="navbar-brand" href="/" aria-label="Dimitris Miaoulis — home">
-        <span className="brand-initials">DM</span>
-        <span className="brand-tagline">Signal to Cloud</span>
+      <a className="navbar-brand" href="/" aria-label="Dimitris Miaoulis - home">
+        <span className="brand-name">Dimitris M.</span>
       </a>
 
       <ul className="navbar-links" role="list">
